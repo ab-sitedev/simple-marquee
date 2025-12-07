@@ -120,29 +120,25 @@
   }
 }
 
-  /* Ensure sidebar uses Geist Mono as a reliable fallback (keeps styling even if Tailwind class isn't generated)
-     This is intentionally placed in the global CSS which is already imported by the app entry. */
-  aside {
-    font-family: 'Geist Mono', monospace;
-  }
-
-  /* For the input[type="color"] element itself */
-input[type="color"] {
-  border: none; /* Removes the main border around the input */
-  -webkit-appearance: none; /* Resets default styling for Webkit browsers */
-  padding: 0; /* Removes any default padding */
+aside {
+  font-family: 'Geist Mono', monospace;
 }
 
+/* Remove the ugly border around built-in color swatch inputs 
+   Webkit and firefox patterns included */
+input[type="color"] {
+  border: none;
+  -webkit-appearance: none;
+  padding: 0;
+}
 /* For Webkit browsers (Chrome, Safari, Edge) */
 input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0; /* Removes padding around the color swatch */
+  padding: 0;
 }
-
 input[type="color"]::-webkit-color-swatch {
-  border: none; /* Removes the border around the actual color swatch */
+  border: none;
 }
-
 /* For Firefox */
 input[type="color"]::-moz-color-swatch {
-  border: none; /* Removes the border around the actual color swatch */
+  border: none;
 }

@@ -78,8 +78,7 @@ export function ConfigPage() {
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar defines the overall height (viewport). Make it scrollable if content grows. */}
-  <aside className="flex flex-col gap-2 w-64 bg-stone-100 p-4 max-h-screen overflow-auto font-geist text-xs">
+      <aside className="flex flex-col gap-2 w-64 bg-stone-100 p-4 max-h-screen overflow-auto font-geist text-xs">
 
         <label>
           <span>Text:</span>
@@ -157,7 +156,6 @@ export function ConfigPage() {
       </aside>
 
       {/* Preview */}
-      {/* Main area limited to the same height as the sidebar and scrolls internally when needed */}
       <main className="flex-1 max-h-screen overflow-auto p-4">
         <p style={{ marginBottom: 0 }}>Preview:</p>
         {previewConfig && (
@@ -166,7 +164,6 @@ export function ConfigPage() {
             className="max-h-full flex items-center justify-center"
             style={{ aspectRatio: "4/3", border: "1px solid #ccc", width: "100%" }}
           >
-            {/* The Display component will fit the container when fitContainer is set */}
             <div className="w-full h-full flex items-center justify-center overflow-hidden">
               <Display config={previewConfig} fitContainer />
             </div>
