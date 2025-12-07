@@ -15,7 +15,7 @@ export function ConfigPage() {
 
   const [flashEnabled, setFlashEnabled] = useState(true);
   const [ambientColor, setAmbientColor] = useState("#000000");
-  const [interval, setInterval] = useState(1000);
+  const [interval, setInterval] = useState(750);
 
   const [previewConfig, setPreviewConfig] = useState<DisplayConfig | null>(null);
 
@@ -77,79 +77,102 @@ export function ConfigPage() {
   };
 
   return (
-    <div className="p-6 space-y-4">
-      <Button onClick={openDisplayWindow}>Open Display Window</Button>
+    <div className="flex h-screen">
+      {/* Sidebar defines the overall height (viewport). Make it scrollable if content grows. */}
+  <aside className="flex flex-col gap-2 w-64 bg-stone-100 p-4 max-h-screen overflow-auto font-geist text-xs">
 
-      <Input
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Enter text"
-      />
+        <label>
+          <span>Text:</span>
+          <Input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Enter text"
+          />
+        </label>
 
-      <label className="flex items-center space-x-2">
-        <span>Text color:</span>
-        <Input
-          type="color"
-          value={textColor}
-          onChange={(e) => setTextColor(e.target.value)}
-        />
-      </label>
+        <label className="flex items-center space-x-2">
+          <span>Text color:</span>
+          <Input
+            type="color"
+            value={textColor}
+            onChange={(e) => setTextColor(e.target.value)}
+            className="!w-9 !h-9 p-0 ml-auto flex-shrink-0"
+          />
+        </label>
 
-      <label className="flex items-center space-x-2">
-        <span>Background color:</span>
-        <Input
-          type="color"
-          value={backgroundColor}
-          onChange={(e) => setBackgroundColor(e.target.value)}
-        />
-      </label>
+        <label className="flex items-center space-x-2">
+          <span>Background color:</span>
+          <Input
+            type="color"
+            value={backgroundColor}
+            onChange={(e) => setBackgroundColor(e.target.value)}
+            className="!w-9 !h-9 p-0 ml-auto flex-shrink-0"
+          />
+        </label>
 
-      <label className="flex items-center space-x-2">
-        <Checkbox
-          checked={flashEnabled}
-          onCheckedChange={(checked) => setFlashEnabled(!!checked)}
-        />
-        <span>Enable flash effect</span>
-      </label>
+        <label className="flex items-center">
+          <span>Enable flash effect</span>
+          <Checkbox
+            checked={flashEnabled}
+            onCheckedChange={(checked) => setFlashEnabled(!!checked)}
+            className="ml-auto"
+          />
+        </label>
 
-      {flashEnabled && (
-        <>
-          <label className="flex items-center space-x-2">
-            <span>Ambient color:</span>
-            <Input
-              type="color"
-              value={ambientColor}
-              onChange={(e) => setAmbientColor(e.target.value)}
-            />
-          </label>
+        {flashEnabled && (
+          <>
+            <label className="flex items-center space-x-2">
+              <span>Ambient color:</span>
+              <Input
+                type="color"
+                value={ambientColor}
+                onChange={(e) => setAmbientColor(e.target.value)}
+                className="!w-9 !h-9 p-0 ml-auto flex-shrink-0"
+              />
+            </label>
 
-          <label className="flex items-center space-x-2">
-            <span>Flash interval (ms):</span>
-            <Input
-              type="number"
-              value={interval}
-              onChange={(e) => setInterval(Number(e.target.value))}
-            />
-          </label>
-        </>
-      )}
+            <label className="flex items-center space-x-2">
+              <span>Flash interval (ms):</span>
+              <Input
+                type="number"
+                value={interval}
+                onChange={(e) => setInterval(Number(e.target.value))}
+              />
+            </label>
+          </>
+        )}
 
-      <div className="space-x-2">
-        <Button onClick={handleSubmit} className="bg-green-500">
-          Submit
+        <div className="flex flex-col gap-2">
+          <Button onClick={handleSubmit} className="bg-green-500">
+            Submit
+          </Button>
+          <Button onClick={handleClearDisplay} className="bg-red-500">
+            Clear Display
+          </Button>
+        </div>
+
+        <Button onClick={openDisplayWindow} className="mt-auto w-full">
+          Open Display Window
         </Button>
-        <Button onClick={handleClearDisplay} className="bg-red-500">
-          Clear Display
-        </Button>
-      </div>
+      </aside>
 
       {/* Preview */}
-      <p style={{ marginBottom: 0 }}>Preview:</p>
-      {previewConfig && (
-        <div className="w-full" style={{ aspectRatio: "4/3", border: "1px solid #ccc" }}>
-          <Display config={previewConfig} fitContainer />
-        </div>
-      )}
+      {/* Main area limited to the same height as the sidebar and scrolls internally when needed */}
+      <main className="flex-1 max-h-screen overflow-auto p-4">
+        <p style={{ marginBottom: 0 }}>Preview:</p>
+        {previewConfig && (
+          <div
+            id="preview"
+            className="max-h-full flex items-center justify-center"
+            style={{ aspectRatio: "4/3", border: "1px solid #ccc", width: "100%" }}
+          >
+            {/* The Display component will fit the container when fitContainer is set */}
+            <div className="w-full h-full flex items-center justify-center overflow-hidden">
+              <Display config={previewConfig} fitContainer />
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
